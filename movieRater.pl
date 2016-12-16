@@ -4,24 +4,24 @@
 
 %% for building and calculating the score on sublime text editor
 %% main :- calculate_scores("awesome film", Solution), writef('%t\n', [Solution]).
-main :- calculate_scores("awesome film", Solution), writef('%t\n', [Solution]).
+main :- calculate_scores("disney makes a awesome movie", Solution), writef('%t\n', [Solution]).
 
 %calculates the score of the given review by using reviews on the carpus
 %calculate_scores(+NewReview,-S).
 calculate_scores(NewReview, S):-
 	downcase_atom(NewReview, NewReviewDowncase),
 	split_string(NewReviewDowncase, " ", ".,", Words),
-	sumScores(Words,Sum),length(Words,Length), S is Sum / Length.
+	sumScores(Words,Weights,Sum),sumlist(Weights,TotalWeight), S is Sum / TotalWeight.
 
 %returns the sum of scores of a word
-%sumScores(Words,Score)
-sumScores([],0).
-sumScores([Word|T],K+FactorScore):-
+%sumScores(Words,TotalWeight,Score)
+sumScores([],[],0).
+sumScores([Word|T],[Factor|Factors],K+FactorScore):-
 	findall([P|N],(get_review(Words,S),count(Word,Words,N),P is S*N),WeightedList),
 	calculate_score_from_weighted_list(WeightedList,Score),
 	weight(Word,Factor),
 	FactorScore is Factor * Score,
-	sumScores(T,K).
+	sumScores(T,Factors,K).
 
 %given the list of weighted scores and their occurences,returns the overall score of a word
 %calculate_score_from_weighted_list(+WeightedList,-Score).

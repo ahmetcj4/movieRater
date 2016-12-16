@@ -8,3 +8,4 @@ weight(Word,0.2):-preposition(Word).
 weight(Word,0.3):-pronoun(Word).
 weight(Word,0.1):-proper_noun(Word).
 weight(Word,0.6):-verb(Word).
+weight(_,0).
