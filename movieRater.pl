@@ -2,6 +2,10 @@
 :-include('dictionary.pl').
 :-include('category.pl').
 
+%% for building and calculating the score on sublime text editor
+%% main :- calculate_scores("awesome film", Solution), writef('%t\n', [Solution]).
+main :- calculate_scores("awesome film", Solution), writef('%t\n', [Solution]).
+
 %calculates the score of the given review by using reviews on the carpus
 %calculate_scores(+NewReview,-S).
 calculate_scores(NewReview, S):-
@@ -12,9 +16,11 @@ calculate_scores(NewReview, S):-
 %returns the sum of scores of a word
 %sumScores(Words,Score)
 sumScores([],0).
-sumScores([Word|T],K+Score):-
+sumScores([Word|T],K+FactorScore):-
 	findall([P|N],(get_review(Words,S),count(Word,Words,N),P is S*N),WeightedList),
 	calculate_score_from_weighted_list(WeightedList,Score),
+	weight(Word,Factor),
+	FactorScore is Factor * Score,
 	sumScores(T,K).
 
 %given the list of weighted scores and their occurences,returns the overall score of a word
