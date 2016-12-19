@@ -14,3 +14,15 @@ review('This movie really makes me laugh. Awesome Funny Movie',10).
 review('It was a very fun movie. Compared to more recent Disney films I would score it higher than all of them',7).
 review('It has plenty of fun moments, even if doesn\'t have much new to find with its Disney formula',7).
 review('I don\'t like this cliche film',3).
+review('This is an awesome sequel to one of the best action movies ever.',10).
+review('He does an excellent job with the character.',10).
+review('Put simply it rocks.',10).
+review('He has a great performance in this film',10).
+review('I love the show I was amazed with the characters, world, magic and everything else.',10).
+review('it has a lot of funny moments.',7).
+review('The film is a super fantastic awesome movie.',10).
+
+
+
+
+

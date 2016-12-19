@@ -4,26 +4,27 @@
 
 %% for building and calculating the score on sublime text editor
 %% main :- calculate_scores("awesome film", Solution), writef('%t\n', [Solution]).
-main :- calculate_scores2("movie is a cliche but awesome", Solution), writef('%t\n', [Solution]).
+main :- calculate_scores("The film is a super awesome movie.", Solution), writef('%t\n', [Solution]).
+%% main :- not_defined(Solution), writef('%t\n', [Solution]).
 
 %calculates the score of the given review by using reviews on the carpus - the one in the project desctiption
 %calculate_scores(+NewReview,-S).
 calculate_scores(NewReview, S):-
 	downcase_atom(NewReview, NewReviewDowncase),
 	split_string(NewReviewDowncase, " ", ".,", Words),
-	sumScores(Words,Weights,Sum),length(Weights,Length), S is Sum / Length.
+	sumScores(Words,_,Sum),length(Words,Length), S is Sum / Length.
 
 %calculates the score of the given review by using reviews on the carpus - the proper one 
 %calculate_scores(+NewReview,-S).
 calculate_scores2(NewReview, S):-
 	downcase_atom(NewReview, NewReviewDowncase),
 	split_string(NewReviewDowncase, " ", ".,", Words),
-	sumScores(Words,Weights,Sum),sumlist(Weights,TotalWeight), S is Sum / TotalWeight.
+	sumScores(Words,Weights,Sum), S is Sum / Weights.
 
 %returns the sum of scores of a word
-%sumScores(Words,TotalWeight,Score)
-sumScores([],[],0).
-sumScores([Word|T],[Factor|Factors],K+FactorScore):-
+%sumScores(+Words,TotalWeight,Score)
+sumScores([],0,0).
+sumScores([Word|T],Factor + Factors,K+FactorScore):-
 	findall([P|N],(get_review(Words,S),count(Word,Words,N),P is S*N),WeightedList),
 	calculate_score_from_weighted_list(WeightedList,Score),
 	weight(Word,Factor),
@@ -35,6 +36,7 @@ sumScores([Word|T],[Factor|Factors],K+FactorScore):-
 calculate_score_from_weighted_list(WeightedList,Score):-
 	calculate_total_score_from_weighted_list(WeightedList,Scores,Counts),Counts>0,
 	Score is Scores/Counts.
+
 
 %given the list of weighted scores and their occurences,returns the sum of scores and occurences of a word
 %calculate_total_score_from_weighted_list(+WeightedList,-TotalScore,-Count).
