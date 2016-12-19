@@ -1,3 +1,4 @@
+%returns the weight of the word with respect to its category
 weight(Word,0.8):-adjective(Word).
 weight(Word,0.8):-adverb(Word).
 weight(Word,0.6):-conjunction(Word).

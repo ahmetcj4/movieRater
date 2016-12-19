@@ -4,11 +4,18 @@
 
 %% for building and calculating the score on sublime text editor
 %% main :- calculate_scores("awesome film", Solution), writef('%t\n', [Solution]).
-main :- calculate_scores("disney makes a awesome movie", Solution), writef('%t\n', [Solution]).
+main :- calculate_scores2("movie is a cliche but awesome", Solution), writef('%t\n', [Solution]).
 
-%calculates the score of the given review by using reviews on the carpus
+%calculates the score of the given review by using reviews on the carpus - the one in the project desctiption
 %calculate_scores(+NewReview,-S).
 calculate_scores(NewReview, S):-
+	downcase_atom(NewReview, NewReviewDowncase),
+	split_string(NewReviewDowncase, " ", ".,", Words),
+	sumScores(Words,Weights,Sum),length(Weights,Length), S is Sum / Length.
+
+%calculates the score of the given review by using reviews on the carpus - the proper one 
+%calculate_scores(+NewReview,-S).
+calculate_scores2(NewReview, S):-
 	downcase_atom(NewReview, NewReviewDowncase),
 	split_string(NewReviewDowncase, " ", ".,", Words),
 	sumScores(Words,Weights,Sum),sumlist(Weights,TotalWeight), S is Sum / TotalWeight.
